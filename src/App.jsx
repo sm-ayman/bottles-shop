@@ -6,16 +6,16 @@ const bottlesPromise = fetch("/bottles.json").then((res) => res.json());
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-4">
+    <div className="min-h-screen bg-gray-100 py-10 md:px-4">
       {/* Main Heading */}
-      <h1 className="text-4xl sm:text-5xl font-bold text-center text-blue-700 mb-10">
+      <p className="md:text-3xl font-bold text-center text-blue-700 mb-10">
         Awesome Water Bottles
-      </h1>
+      </p>
 
       {/* Bottles Section */}
       <Suspense
         fallback={
-          <h3 className="text-center text-gray-500 text-lg animate-pulse">
+          <h3 className="text-center text-gray-500 md:text-lg animate-pulse">
             Loading Bottles...
           </h3>
         }

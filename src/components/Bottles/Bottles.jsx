@@ -10,53 +10,48 @@ import Cart from "../Cart/Cart";
 const Bottles = ({ bottlesPromise }) => {
   const [cart, setCart] = useState([]);
   const bottles = use(bottlesPromise);
-  // console.log(bottles);
 
-  // useEffect - to getStoredCart -- we dont use it now -- alterative of promise
   useEffect(() => {
     const storedCartIds = getStoredCart();
-    // console.log(storedCartIds, "bottles-", bottles);
-
     const storedCart = [];
 
     for (const id of storedCartIds) {
-      // console.log(id);
       const cartBottle = bottles.find((bottle) => bottle.id === id);
-      if (cartBottle) {
-        // console.log(cartBottle);
-        storedCart.push(cartBottle);
-      }
+      if (cartBottle) storedCart.push(cartBottle);
     }
-    console.log(storedCart);
+
     setCart(storedCart);
   }, [bottles]);
 
   const handleAddToCart = (bottle) => {
-    // console.log(bottle.name, "added to cart");
     const updatedCart = [...cart, bottle];
     setCart(updatedCart);
-
-    // save the bottle id in the storage
     addToStoredCart(bottle.id);
   };
 
   const handleRemoveFromCart = (id) => {
-    // console.log("remove", id);
     const remainingCart = cart.filter((bottle) => bottle.id !== id);
     setCart(remainingCart);
     removeFromCart(id);
   };
 
   return (
-    <div className="p-6">
-      <h3 className="text-xl font-semibold text-gray-900 mb-6  p-4 rounded-lg  border border-gray-200 flex justify-between items-center">
-        <span>Available Design: {bottles.length}</span>
-        <span>🛒 Cart Items: {cart.length}</span>
+    <div className="p-4 sm:p-6 md:p-8">
+      {/* Header: Available Designs + Cart Count */}
+      <h3 className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-4 sm:p-6 rounded-lg border border-gray-200 shadow-md mb-6">
+        <span className="text-lg sm:text-xl font-semibold text-gray-900">
+          Available Design: {bottles.length}
+        </span>
+        <span className="text-lg sm:text-xl font-semibold text-gray-900 mt-2 sm:mt-0">
+          🛒 Cart Items: {cart.length}
+        </span>
       </h3>
 
-      <Cart cart={cart} handleRemoveFromCart={handleRemoveFromCart}></Cart>
+      {/* Cart */}
+      <Cart cart={cart} handleRemoveFromCart={handleRemoveFromCart} />
+
       {/* Bottles Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mt-6 sm:mt-10">
         {bottles.map((bottle) => (
           <Bottle
             handleAddToCart={handleAddToCart}
